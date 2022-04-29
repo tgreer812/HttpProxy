@@ -1,6 +1,9 @@
 import argparse
 import logging
 
+from HttpProxy import httpproxy
+from twisted.internet import reactor
+
 
 LOG_FORMAT = "[%(levelname)s] %(message)s"
 LOG_DEBUG_FORMAT = "[%(threadName)s-%(filename)s-%(funcName)s-%(lineno)s | %(levelname)s] %(message)s"
@@ -10,7 +13,12 @@ log = logging.getLogger(__name__)
 
 
 def run(args, **kwargs):
-    log.info("run was called")
+
+    site = httpproxy.HookedSite(kwargs["rhost"], kwargs["rport"])
+
+    log.info(f"Starting Reactor: {kwargs['lhost']}:{kwargs['lport']}")
+    reactor.listenTCP(kwargs["lport"], site)
+    reactor.run()
 	
 class SymbolFormatter(logging.Formatter):
     symbols = ["x", "!", "-", "+", "DBG"]
