@@ -4,11 +4,12 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
-            "name": "Python: Current File",
+            "name": "Python: Run Proxy",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "/home/tyler/httpproxy/HttpProxy/driver.py",
             "args": ["--lhost", "0.0.0.0", "--lport", "8080", "--rhost", "127.0.0.1", "--rport", "80", "--debug", "--logging", "log.txt"],
             "console": "integratedTerminal",
             "justMyCode": true

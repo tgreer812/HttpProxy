@@ -1,8 +1,13 @@
 import argparse
 import logging
 
-from HttpProxy import httpproxy
+from dbus import Interface
 from twisted.internet import reactor
+
+from HookedHttpProxy import hookedproxy
+import HookedHttpProxy.enabledhooks
+
+
 
 
 LOG_FORMAT = "[%(levelname)s] %(message)s"
@@ -11,13 +16,12 @@ LOG_DEBUG_FORMAT = "[%(threadName)s-%(filename)s-%(funcName)s-%(lineno)s | %(lev
 log = logging.getLogger(__name__)
 
 
-
 def run(args, **kwargs):
 
-    site = httpproxy.HookedSite(kwargs["rhost"], kwargs["rport"])
-
+    site = hookedproxy.HookedSite(kwargs["rhost"], kwargs["rport"])
+    
     log.info(f"Starting Reactor: {kwargs['lhost']}:{kwargs['lport']}")
-    reactor.listenTCP(kwargs["lport"], site)
+    reactor.listenTCP(kwargs["lport"], site, interface=kwargs['lhost'])
     reactor.run()
 	
 class SymbolFormatter(logging.Formatter):
