@@ -4,6 +4,7 @@ from HookedHttpProxy.exceptions import OverrideError
 registered = {}
 
 def enable_hook(hook_class):
+    #TODO: enforce type Hook
     print(type(hook_class))
     registered.update({hook_class.get_name(hook_class): hook_class})
 
